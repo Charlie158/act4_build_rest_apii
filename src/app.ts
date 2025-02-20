@@ -1,13 +1,13 @@
 import express from "express"
-import * as doteevnv from "dotenv"
+import * as dotevnv from "dotenv"
 import cors from "cors"
 import helmet from "helmet"
-import e from "express"
-import { CONNREFUSED } from "dns"
+import { userRouter } from "./users/user.routes";
+import { productRouter} from "./products/product.routes";
 
-doteevnv.config ()
+dotevnv.config()
 
-if (!process.env.PORT)  {
+if (!process.env.PORT) {
     console.log(`No port value specified...`)
 }
 
@@ -20,7 +20,9 @@ app.use(express.urlencoded({extended : true}))
 app.use(cors())
 app.use(helmet())
 
-app.listen(PORT, () => {
-        console.log(`Server is listening on port ${PORT}`)
+app.use('/', userRouter)
+app.use ('/', productRouter)
 
+app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`)
 })
